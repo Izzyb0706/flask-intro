@@ -18,7 +18,7 @@
     -used url_for() to load static assets in HTML pages
  
 """
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import datetime
  
  
@@ -34,6 +34,15 @@ def home():
 def time():
     now = datetime.datetime.now()
     return render_template("time.html", current_time=now)
+
+@app.route("/form", methods=['GET', 'POST'])
+def form():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        ssn = request.form.get('ssn')
+        return render_template("greeting.html", name=name, ssn=ssn)
+
+    return render_template("form.html")
  
  
 if __name__ == "__main__":
