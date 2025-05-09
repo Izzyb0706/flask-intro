@@ -44,6 +44,13 @@ def form():
 
     return render_template("form.html")
  
+@app.route("/math", methods= 'GET', 'POST')
+def math():
+   if request.method == 'POST':
+    num1 = request.form.get('num1')
+    num2 = request.form.get('num2')
+    return render_template("math-results.html", num1=num1, num2=num2)
+   return render_template("math.html")
  
 if __name__ == "__main__":
     app.run(debug=True)
