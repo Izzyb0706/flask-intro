@@ -74,6 +74,21 @@ def catfact():
 
     return render_template("catfact.html", cat_fact=fact, pic=pic)
 
+@app.route("/dog", methods=["GET", "POST"])
+def dog():
+    image_url = None #This will be the dog image url
+    error = None #Holds an error message if something goes wrong
+    breed = None
+
+    if request.method == "POST":
+        breed = request.form.get("breed").lower()
+        api_url = f"https://dog.ceo/api/breed/{breed}/images/random"
+        response = requests.get(api_url)
+        if response.status_code == 200 and response.json().get("status") == "success":
+            image_url = response.json()["message"]
+        else:
+            error = f"Could not find breed '{breed}'. Try another!"
+    return render_template("dog.html", image_url=image_url, error=error, breed=breed)
 
 if __name__ == "__main__":
     # debug = True enables automatic reload on changes and better error messages
